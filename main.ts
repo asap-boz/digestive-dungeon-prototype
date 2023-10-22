@@ -71,7 +71,6 @@ floorGen(1);
 
 
 function floorGen(floorNum: number) {
-
     startX = randint(0, 3)
     startY = randint(0, 3)
     currentX = startX
@@ -80,33 +79,146 @@ function floorGen(floorNum: number) {
     takenRooms[startX][startY] = true
     genLoc = [currentX * 10 + currentY]
     let newSum = sumFloorLayout(floorLayout);
-    while (newSum < 10) {
+    while (newSum < 9) {
         let k = 0
         let right = false
         let left = false
         let down = false
         let up = false
         numOfDirections = randint(1, 3)
-        if(newSum >= 4){numOfDirections = 1}
+        if(newSum >= 2){numOfDirections = 1}
         currentX = (genLoc[0]- genLoc[0]%10) / 10;
         currentY = genLoc[0] % 10;
-        while (genLoc.length > 0){
-            if ((takenRooms[currentX][currentY - 1] == true || currentY - 1 < 0) && (takenRooms[currentX][currentY + 1] == true || currentY + 1 > 3) && (takenRooms[currentX - 1][currentY] == true || currentX - 1 < 0) && (takenRooms[currentX + 1][currentY] == true || currentX + 1 > 3)){
-            genLoc.shift();
-            currentX = (genLoc[0] - genLoc[0] % 10) / 10;
-            currentY = genLoc[0] % 10;
+        while (genLoc.length != 0 || genLoc != null){
+            if (currentY - 1 < 0 || currentY + 1 > 3 || currentX - 1 < 0 || currentX + 1 > 3){
+                // case up is out of bounds
+                if (currentY - 1 < 0 && currentY + 1 <= 3 && currentX + 1 <= 3 && currentX - 1 >= 0){
+                    if (takenRooms[currentX][currentY + 1] == true && takenRooms[currentX - 1][currentY] == true && takenRooms[currentX + 1][currentY] == true){
+                        genLoc.shift();
+                        if (genLoc != null) {
+                            currentX = (genLoc[0] - genLoc[0] % 10) / 10;
+                            currentY = genLoc[0] % 10;
+                        }
+                    }
+                    else{
+                        break;
+                    }
+                }
+                    // case down is out of bounds
+                else if (currentY - 1 >= 0 && currentY + 1 > 3 && currentX + 1 <= 3 && currentX - 1 >= 0) {
+                    if (takenRooms[currentX][currentY - 1] == true && takenRooms[currentX - 1][currentY] == true && takenRooms[currentX + 1][currentY] == true ){
+                        genLoc.shift();
+                        if (genLoc != null) {
+                            currentX = (genLoc[0] - genLoc[0] % 10) / 10;
+                            currentY = genLoc[0] % 10;
+                        }
+                    }
+                    else {
+                        break;
+                    }
+                }
+                    //case left is out of bounds
+                else if (currentY - 1 >= 0 && currentY + 1 <= 3 && currentX + 1 <= 3 && currentX - 1 < 0) {
+                    if (takenRooms[currentX][currentY - 1] == true && takenRooms[currentX][currentY + 1] == true && takenRooms[currentX + 1][currentY] == true) {
+                        genLoc.shift();
+                        if (genLoc != null) {
+                            currentX = (genLoc[0] - genLoc[0] % 10) / 10;
+                            currentY = genLoc[0] % 10;
+                        }
+                    }
+                    else {
+                        break;
+                    }
+                }
+                //case right is out of bounds
+                else if (currentY - 1 >= 0 && currentY + 1 <= 3 && currentX + 1 > 3 && currentX - 1 >= 0) {
+                    if (takenRooms[currentX][currentY - 1] == true && takenRooms[currentX][currentY + 1] == true && takenRooms[currentX - 1][currentY] == true) {
+                        genLoc.shift();
+                        if (genLoc != null) {
+                            currentX = (genLoc[0] - genLoc[0] % 10) / 10;
+                            currentY = genLoc[0] % 10;
+                        }
+                    }
+                    else {
+                        break;
+                    }
+                }
+                // case up and left are out of bounds
+                else if (currentY - 1 < 0 && currentY + 1 <= 3 && currentX + 1 <= 3 && currentX - 1 < 0) {
+                    if (takenRooms[currentX][currentY + 1] == true && takenRooms[currentX + 1][currentY] == true) {
+                        genLoc.shift();
+                        if (genLoc != null) {
+                            currentX = (genLoc[0] - genLoc[0] % 10) / 10;
+                            currentY = genLoc[0] % 10;
+                        }
+                    }
+                    else {
+                        break;
+                    }
+                }
+                // case up and right are out of bounds
+                else if (currentY - 1 < 0 && currentY + 1 <= 3 && currentX + 1 > 3 && currentX - 1 >= 0) {
+                    if (takenRooms[currentX][currentY + 1] == true && takenRooms[currentX - 1][currentY] == true) {
+                        genLoc.shift();
+                        if (genLoc != null) {
+                            currentX = (genLoc[0] - genLoc[0] % 10) / 10;
+                            currentY = genLoc[0] % 10;
+                        }
+                    }
+                    else {
+                        break;
+                    }
+                }
+                //case down and left are out of bounds
+                else if (currentY - 1 >= 0 && currentY + 1 > 3 && currentX + 1 <= 3 && currentX - 1 < 0) {
+                    if (takenRooms[currentX][currentY - 1] == true && takenRooms[currentX + 1][currentY] == true) {
+                        genLoc.shift();
+                        if (genLoc != null) {
+                            currentX = (genLoc[0] - genLoc[0] % 10) / 10;
+                            currentY = genLoc[0] % 10;
+                        }
+                    }
+                    else {
+                        break;
+                    }
+                }
+                //case down and right are out of bounds
+                else if (currentY - 1 >= 0 && currentY + 1 > 3 && currentX + 1 > 3 && currentX - 1 >= 0) {
+                    if (takenRooms[currentX][currentY - 1] == true && takenRooms[currentX - 1][currentY] == true) {
+                        genLoc.shift();
+                        if (genLoc != null) {
+                            currentX = (genLoc[0] - genLoc[0] % 10) / 10;
+                            currentY = genLoc[0] % 10;
+                        }
+                    }
+                    else {
+                        break;
+                    }
+                }
+                // case all in bounds but full
+            } else if (currentY - 1 >= 0 && currentY + 1 <= 3 && currentX + 1 <= 3 && currentX - 1 >= 0){
+                if (takenRooms[currentX][currentY - 1] == true && takenRooms[currentX][currentY + 1] == true && takenRooms[currentX - 1][currentY] == true && takenRooms[currentX + 1][currentY] == true ){
+                if(genLoc != null){
+                genLoc.shift();
+                }
+                if (genLoc != null){
+                    currentX = (genLoc[0] - genLoc[0] % 10) / 10;
+                    currentY = genLoc[0] % 10;
+                }
+                }
+                else{
+                    break;
+                }
             }
             else{
                 break;
             }
        }
-        if(genLoc.length == 0) {
+        if(genLoc.length == 0 || genLoc == null) {
             for(let m = 0; m < takenRooms.length;m++){
                 for(let n = 0; n < takenRooms[m].length;n++){
                     if(takenRooms[m][n] == true){
-                        if (takenRooms[m - 1][n] == false || takenRooms[m + 1][n] == false || takenRooms[m][n - 1] == false || takenRooms[m][n + 1] == false){
                             genLoc.push((m*10)+n)
-                        }
                     }
                 }
             }
