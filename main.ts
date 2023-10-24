@@ -68,6 +68,7 @@ false
 ]
 ]
 floorGen(1);
+console.log("Hello world");
 
 
 function floorGen(floorNum: number) {
